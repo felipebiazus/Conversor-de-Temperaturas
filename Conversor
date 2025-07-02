@@ -1,0 +1,70 @@
+from tkinter import *
+
+from astropy.io.fits import append
+from docutils.nodes import entry
+
+
+# Conversores de temperatura
+def conversor_celsius(temperatura):
+    f = float(temperatura*1.8+32)
+    k = float(temperatura+273)
+    conversao = (temperatura,"---", f,"---", k)
+    resultado.configure(text=conversao)
+
+def conversor_fahrenheit(temperatura):
+    c = (temperatura-32)/1.8
+    k = (temperatura-32)*5/9+273
+    conversao = (c,"---",temperatura,"---",k)
+    resultado.configure(text=conversao)
+
+def conversor_kelvin(temperatura):
+    f = (temperatura-273)*9/5+32
+    c = temperatura-273
+    conversao = (c,"---",f,"---",temperatura)
+    resultado.configure(text=conversao)
+
+
+# Chamada de função
+def chamar_conversor():
+    temp = float(texto_temp.get())
+    esc = texto_esc.get()
+    if esc == "Celsius" or esc== "celsius" or esc== "c" or esc== "C":
+        conversor_celsius(temp)
+    elif esc == "Fahrenheit" or esc== "fahrenheit" or esc== "f" or esc== "F":
+        conversor_fahrenheit(temp)
+    elif esc == "Kelvin" or esc== "kelvin" or esc== "k" or esc== "K":
+        conversor_kelvin(temp)
+    else:
+        resultado.configure(text="Nenhuma escala disponível foi digitada."
+              "\nEscalas disponíveis: Celsius, Fahrenheit e Kelvin")
+
+
+
+# Interface gráfica
+janela = Tk()
+
+janela.title("Conversor de Temperaturas")
+
+texto_instrutor = Label(janela, text="Forneça as informações para a conversão")
+texto_instrutor.grid(column=0, row=0, padx=10, pady=5)
+
+_temp = Label(janela, text="Qual a temperatura atual:")
+_temp.grid(column=0, row=1, padx=0, pady=5)
+texto_temp = Entry()
+texto_temp.grid(column=1, row=1, padx=0, pady=5)
+
+_esc = Label(janela, text="Qual a escala utilizada:")
+_esc.grid(column=0, row=2, padx=0, pady=0)
+texto_esc = Entry()
+texto_esc.grid(column=1, row=2, padx=10, pady=5)
+
+confirmar_dados = Button(janela, text="Confirmar", command=chamar_conversor)
+confirmar_dados.grid(column=1, row=3, padx=10, pady=10)
+
+resultado = Label(janela, text="-----")
+resultado.grid(column=0, row=4, padx=10, pady=0)
+
+escalas_para_resultado = Label(janela, text="Celsius   Fahrenheit   Kelvin")
+escalas_para_resultado.grid(column=0, row=3, padx=10, pady=0)
+
+janela.mainloop()
